@@ -61,18 +61,46 @@ const App = () => {
     }
   ];
 
+  // Love letters content (quote, name, role, avatar)
+  const testimonials = [
+    {
+      quote:
+        "The impact has been enormous. Our team writes emails in half the time and gets twice as many replies.",
+      name: "Kyle Coleman",
+      role: "Formerly CMO at Clari",
+      avatar: "https://i.pravatar.cc/80?img=12",
+    },
+    {
+      quote:
+        "As an SDR, I love that it keeps me honest when I wax poetic. Our response rate is up.",
+      name: "Robby G.",
+      role: "Sales Development Representative",
+      avatar: "https://i.pravatar.cc/80?img=32",
+    },
+    {
+      quote:
+        "Easy to set up, incredibly useful insights, and a writing process focused on data over guessing.",
+      name: "Sydney Senior",
+      role: "Account Executive",
+      avatar: "https://i.pravatar.cc/80?img=48",
+    },
+    {
+      quote:
+        "Ridiculously smooth delivery and flawless execution. The craft and care show in every detail.",
+      name: "Alex Patel",
+      role: "Product Lead",
+      avatar: "https://i.pravatar.cc/80?img=5",
+    },
+  ];
+
   return (
     <div className="app-container">
       {/* Projects Section */}
       <div className="projects-section">
         {/* Header */}
         <div className="header">
-          <h1 className="header-title">
-            Empowering Brands
-          </h1>
-          <h2 className="header-subtitle">
-            Through Digital Innovation
-          </h2>
+          <h1 className="header-title lp-letters" data-text="Empowering Brands">Empowering Brands</h1>
+          <h2 className="header-subtitle lp-letters" data-text="Through Digital Innovation">Through Digital Innovation</h2>
         </div>
 
         {/* Folders Grid */}
@@ -80,8 +108,7 @@ const App = () => {
           {projects.map((project) => (
             <div
               key={project.id}
-              onClick={() => setSelectedProject(project)}
-              className="folder-item"
+              className="folder-item lp-reveal"
             >
               {/* Folder */}
               <div className="folder-wrapper">
@@ -99,6 +126,12 @@ const App = () => {
                     stroke="none"
                   />
                 </svg>
+                {/* hover fan of images like design */}
+                <div className="folder-fan">
+                  <div className="fan-card fan-1" />
+                  <div className="fan-card fan-2" />
+                  <div className="fan-card fan-3" />
+                </div>
               </div>
               <p className="folder-title">
                 {project.title}
@@ -156,50 +189,28 @@ const App = () => {
       {/* Love Letters Section */}
       <div className="love-letters-section">
         {/* Header */}
-        <div className="love-letters-header">
-          <h1 className="love-letters-title">
-            Love Letters
-          </h1>
+        <div className="love-letters-header lp-reveal">
+          <h1 className="love-letters-title lp-letters" data-text="Love Letters">Love Letters</h1>
           <p className="love-letters-description">
             We cherish each customer message as a heartfelt love letter your trust inspires our unwavering commitment to excellence and fuels our passion to exceed expectations
           </p>
         </div>
 
-        {/* Sticky Notes */}
-        <div className="sticky-notes-container">
-          {/* Note 1 - Pink/Red */}
-          <div className="sticky-note note-1">
-            <p className="sticky-note-text">
-              Fast delivery, flawless execution. Couldn't be happier!
-            </p>
-          </div>
-
-          {/* Note 2 - Blue */}
-          <div className="sticky-note note-2">
-            <p className="sticky-note-text">
-              Fast delivery, flawless execution. Couldn't be happier!
-            </p>
-          </div>
-
-          {/* Note 3 - Pink */}
-          <div className="sticky-note note-3">
-            <p className="sticky-note-text">
-              Fast delivery, flawless execution. Couldn't be happier!
-            </p>
-          </div>
-
-          {/* Note 4 - Yellow */}
-          <div className="sticky-note note-4">
-            <p className="sticky-note-text">
-              Fast delivery, flawless execution. Couldn't be happier!
-            </p>
-          </div>
-
-          {/* Note 5 - Mint/Green */}
-          <div className="sticky-note note-5">
-            <p className="sticky-note-text">
-              Fast delivery, flawless execution. Couldn't be happier!
-            </p>
+        {/* Marquee Love Cards */}
+        <div className="love-marquee lp-reveal" onMouseEnter={(e)=>e.currentTarget.classList.add('paused')} onMouseLeave={(e)=>e.currentTarget.classList.remove('paused')}>
+          <div className="love-track">
+            {[...testimonials, ...testimonials].map((t, i) => (
+              <div key={i} className={`love-card love-${(i%4)+1}`}>
+                <div className="love-quote">“{t.quote}”</div>
+                <div className="love-meta">
+                  <img className="love-avatar" src={t.avatar} alt={t.name} />
+                  <div className="love-info">
+                    <div className="love-name">{t.name}</div>
+                    <div className="love-role">{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -263,19 +274,29 @@ const App = () => {
 
         .folder-wrapper {
           position: relative;
-          transition: transform 0.3s;
+          transition: transform 240ms ease, filter 240ms ease;
           width: 100%;
           max-width: 200px;
         }
 
         .folder-item:hover .folder-wrapper {
-          transform: scale(1.1);
+          transform: translateY(-8px) scale(1.1);
+          filter: drop-shadow(0 22px 36px rgba(0,0,0,0.26));
         }
 
         .folder-svg {
           width: 100%;
           filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
+          transition: filter .25s ease;
         }
+
+        /* Fan images */
+        .folder-fan { position: absolute; left: 50%; top: -28px; transform: translateX(-50%) translateY(10px); display: flex; gap: 6px; pointer-events: none; opacity: 0; transition: opacity .35s ease, transform .35s ease; }
+        .fan-card { width: 70px; height: 90px; border-radius: 12px; box-shadow: 0 12px 20px rgba(0,0,0,0.18); background-size: cover; background-position: center; }
+        .fan-1 { background-image: url('https://images.unsplash.com/photo-1520975922284-9d09c25c2e1a?q=80&w=500'); transform: rotate(-14deg); }
+        .fan-2 { background-image: url('https://images.unsplash.com/photo-1513883049090-d0b7439799bf?q=80&w=500'); transform: translateY(-6px); }
+        .fan-3 { background-image: url('https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=500'); transform: rotate(12deg); }
+        .folder-item:hover .folder-fan { opacity: 1; transform: translateX(-50%) translateY(-6px); }
 
         .folder-title {
           text-align: center;
@@ -401,108 +422,52 @@ const App = () => {
           font-weight: 400;
         }
 
-        .sticky-notes-container {
-          position: relative;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 300px;
-          margin-top: 60px;
-        }
+        /* Love marquee */
+        /* Reveal utility for this page */
+        .lp-reveal { opacity: 0; transform: translateY(26px); }
+        .lp-reveal.is-visible { opacity: 1; transform: translateY(0); transition: transform 900ms ease, opacity 900ms ease; }
 
-        .sticky-note {
+        /* Love marquee */
+        .love-marquee { position: relative; overflow: hidden; }
+        /* Edge fade overlays (do not clip cards) */
+        .love-marquee::before,
+        .love-marquee::after {
+          content: '';
           position: absolute;
-          width: 240px;
-          height: 240px;
-          padding: 30px;
-          border-radius: 8px;
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .sticky-note-text {
-          font-family: 'Comic Sans MS', 'Brush Script MT', cursive, sans-serif;
-          font-size: 18px;
-          line-height: 1.5;
-          color: #000000;
-          font-style: italic;
-          font-weight: 500;
-        }
-
-        .note-1 {
-          background-color: #FF9AA2;
-          transform: rotate(-8deg);
-          left: 5%;
-          top: 50%;
-          margin-top: -120px;
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .note-2 {
-          background-color: #A0C4FF;
-          transform: rotate(5deg);
-          left: 20%;
-          top: 50%;
-          margin-top: -120px;
-          animation: float 6s ease-in-out 1.2s infinite;
-        }
-
-        .note-3 {
-          background-color: #FFB7CE;
-          transform: rotate(-4deg);
-          left: 50%;
-          margin-left: -120px;
-          top: 50%;
-          margin-top: -120px;
-          animation: float 6s ease-in-out 2.4s infinite;
+          top: 0; bottom: 0;
+          width: 120px;
+          pointer-events: none;
           z-index: 2;
         }
+        .love-marquee::before {
+          left: 0;
+          background: linear-gradient(90deg, rgba(245,238,220,1) 0%, rgba(245,238,220,0.9) 35%, rgba(245,238,220,0.5) 60%, rgba(245,238,220,0) 100%);
+        }
+        .love-marquee::after {
+          right: 0;
+          background: linear-gradient(-90deg, rgba(245,238,220,1) 0%, rgba(245,238,220,0.9) 35%, rgba(245,238,220,0.5) 60%, rgba(245,238,220,0) 100%);
+        }
+        .love-marquee.paused .love-track { animation-play-state: paused; }
+        .love-track { display: flex; gap: 32px; will-change: transform; animation: scrollX 26s linear infinite; }
+        @keyframes scrollX { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 
-        .note-4 {
-          background-color: #FFEB99;
-          transform: rotate(6deg);
-          right: 20%;
-          top: 50%;
-          margin-top: -120px;
-          animation: float 6s ease-in-out 3.6s infinite;
+        .love-card {
+          min-width: 560px;
+          background: #fff;
+          border-radius: 28px;
+          padding: 56px 40px;
+          box-shadow: 0 22px 48px rgba(0,0,0,0.18);
+          transform: rotate(-2deg);
         }
-
-        .note-5 {
-          background-color: #A0E8AF;
-          transform: rotate(-5deg);
-          right: 5%;
-          top: 50%;
-          margin-top: -120px;
-          animation: float 6s ease-in-out 4.8s infinite;
-        }
-
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px) rotate(var(--rotation, 0deg));
-          }
-          50% {
-            transform: translateY(-15px) rotate(var(--rotation, 0deg));
-          }
-        }
-
-        .note-1 {
-          --rotation: -8deg;
-        }
-        
-        .note-2 {
-          --rotation: 5deg;
-        }
-        
-        .note-3 {
-          --rotation: -4deg;
-        }
-        
-        .note-4 {
-          --rotation: 6deg;
-        }
-        
-        .note-5 {
-          --rotation: -5deg;
-        }
+        .love-1 { background: #CDB4FF; }
+        .love-2 { background: #FDC5F5; transform: rotate(3deg); }
+        .love-3 { background: #BDE0FE; transform: rotate(-4deg); }
+        .love-4 { background: #C7F9CC; transform: rotate(2deg); }
+        .love-quote { font-size: 30px; line-height: 1.5; color: #111; letter-spacing: -0.2px; margin-bottom: 28px; }
+        .love-meta { display: flex; align-items: center; gap: 14px; }
+        .love-avatar { width: 48px; height: 48px; border-radius: 9999px; box-shadow: 0 6px 12px rgba(0,0,0,0.18); object-fit: cover; }
+        .love-name { font-weight: 700; color: #111; }
+        .love-role { color: #222; opacity: .9; font-weight: 500; }
         
         @keyframes fadeIn {
           from {
@@ -517,19 +482,8 @@ const App = () => {
 
         /* Responsive adjustments */
         @media (max-width: 1024px) {
-          .sticky-notes-container {
-            height: 400px;
-          }
-
-          .sticky-note {
-            width: 200px;
-            height: 200px;
-            padding: 25px;
-          }
-
-          .sticky-note-text {
-            font-size: 16px;
-          }
+          .love-card { min-width: 480px; padding: 46px 34px; }
+          .love-quote { font-size: 26px; line-height: 1.45; }
         }
 
         @media (max-width: 768px) {
@@ -552,43 +506,8 @@ const App = () => {
             font-size: 48px;
           }
 
-          .sticky-notes-container {
-            height: 500px;
-          }
-
-          .sticky-note {
-            width: 160px;
-            height: 160px;
-            padding: 20px;
-          }
-
-          .sticky-note-text {
-            font-size: 14px;
-          }
-
-          .note-1 {
-            left: 2%;
-          }
-
-          .note-2 {
-            left: 15%;
-            top: 30%;
-          }
-
-          .note-3 {
-            left: 50%;
-            margin-left: -80px;
-            top: 45%;
-          }
-
-          .note-4 {
-            right: 15%;
-            top: 30%;
-          }
-
-          .note-5 {
-            right: 2%;
-          }
+          .love-card { min-width: 340px; padding: 32px; }
+          .love-quote { font-size: 20px; line-height: 1.5; }
         }
 
         @media (max-width: 480px) {
@@ -609,22 +528,7 @@ const App = () => {
             padding: 80px 20px 120px;
           }
 
-          .sticky-notes-container {
-            height: 600px;
-          }
-
-          .note-1,
-          .note-2,
-          .note-3,
-          .note-4,
-          .note-5 {
-            position: relative;
-            left: auto;
-            right: auto;
-            top: auto;
-            margin: 20px auto;
-            display: block;
-          }
+          .love-track { gap: 16px; }
         }
       `}</style>
     </div>

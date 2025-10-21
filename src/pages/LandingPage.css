@@ -8,18 +8,23 @@
 }
 
 .lp-container {
-  max-width: 1100px;
-  padding: 12px 24px 60px;
+  max-width: 1200px;
+  padding: 12px 32px 60px;
   margin: 0 auto;
 }
 
 .lp-topBar {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
+  padding: 10px 0;
+  backdrop-filter: blur(6px);
 }
+.lp-stuck .lp-navPill { box-shadow: 0 2px 0 rgba(0,0,0,0.25), 0 10px 24px rgba(0,0,0,0.12) inset; }
 
 .lp-brandLogoSmall {
   position: absolute;
@@ -81,7 +86,7 @@
   max-width: 860px;
   font-size: 20px;
   position: relative;
-  top: -145px;
+  top: -130px;
   line-height: 1.6;
   color: #333;
 }
@@ -89,7 +94,7 @@
 .lp-ctaRow {
   margin-top: 24px;
   position: relative;
-  top: -150px;
+  top: -122px;
   display: flex;
   gap: 48px;
 }
@@ -133,7 +138,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 22px;
 }
 
 .lp-videoCard {
@@ -147,6 +152,15 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  position: relative;
+}
+
+.lp-videoCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(transparent, rgba(255,255,255,0.06));
+  pointer-events: none;
 }
 
 .lp-videoCaption {
@@ -154,7 +168,10 @@
   text-align: center;
   color: #2b2b2b;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
+  top : 12px;
+  position: relative;
+  
 }
 
 .lp-playButton {
@@ -176,3 +193,27 @@
   border-bottom: 12px solid transparent;
   margin-left: 4px;
 }
+
+/* Animations */
+.lp-enter-up { animation: enterUp 1100ms cubic-bezier(.2,.7,.2,1) both; }
+.lp-pop { animation: popIn 1200ms 200ms cubic-bezier(.2,.7,.2,1) both; }
+.lp-fade-in { animation: fadeInUp 1400ms 200ms ease-out both; }
+.lp-slide-left { animation: slideInLeft 1200ms 380ms ease-out both; }
+.lp-slide-right { animation: slideInRight 1200ms 380ms ease-out both; }
+.lp-reveal { opacity: 0; transform: translateY(24px); }
+
+@keyframes enterUp { from { transform: translateY(24px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+@keyframes popIn { 0% { transform: scale(.8); opacity: 0 } 60% { transform: scale(1.05) } 100% { transform: scale(1); opacity: 1 } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(16px) } to { opacity:1; transform: translateY(0) } }
+@keyframes slideInLeft { from { opacity:0; transform: translateX(-40px) } to { opacity:1; transform: translateX(0) } }
+@keyframes slideInRight { from { opacity:0; transform: translateX(40px) } to { opacity:1; transform: translateX(0) } }
+
+/* Word-by-word animation */
+.lp-words { overflow: hidden; }
+.lp-words span { display: inline-block; opacity: 0; transform: translateY(1em); animation: wordUp 900ms ease forwards; }
+@keyframes wordUp { to { opacity: 1; transform: translateY(0) } }
+
+/* Letter-by-letter animation */
+.lp-letters { display: inline-block; }
+.lp-letters span { display: inline-block; opacity: 0; transform: translateY(0.6em); animation: letterUp 650ms cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes letterUp { to { opacity: 1; transform: translateY(0) } }
