@@ -14,6 +14,13 @@ export default function LandingPage() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="lp-page">
       <div className="lp-container">
@@ -21,11 +28,13 @@ export default function LandingPage() {
           {/* Small logo at the top (left) */}
           <img src={karkaiLogo} alt="KARKAI" className="lp-brandLogoSmall lp-pop" />
           <div className="lp-navPill">
-            <div className="lp-navItem">HOME</div>
-            <div className="lp-navItem">PROJECTS</div>
-            <div className="lp-navItem">ABOUT US</div>
-            <div className="lp-navItem">MEETING</div>
-            <div className="lp-navItem">CONTACT</div>
+            <div className="lp-navItem" onClick={() => scrollToSection('home')}>HOME</div>
+            <div className="lp-navItem" onClick={() => scrollToSection('what-we-offer')}>WHAT WE OFFER</div>
+            <div className="lp-navItem" onClick={() => scrollToSection('projects')}>PROJECTS</div>
+            <div className="lp-navItem" onClick={() => scrollToSection('about-us')}>ABOUT US</div>
+            <div className="lp-navItem" onClick={() => scrollToSection('meeting')}>MEETING</div>
+            <div className="lp-navItem" onClick={() => scrollToSection('love-letters')}>LOVE LETTERS</div>
+            <div className="lp-navItem" onClick={() => scrollToSection('contact')}>CONTACT</div>
           </div>
           {/* 2x2 grid icon on the top right */}
           <div className="lp-gridWrap lp-pop">
@@ -48,8 +57,8 @@ export default function LandingPage() {
             timeless, and truly centered around the people who use them.
           </div>
           <div className="lp-ctaRow">
-            <button className="lp-cta lp-slide-left">HOME</button>
-            <button className="lp-cta lp-slide-right">CONTACT</button>
+            <button className="lp-cta lp-slide-left" onClick={() => scrollToSection('what-we-offer')}>WHAT WE OFFER</button>
+            <button className="lp-cta lp-slide-right" onClick={() => scrollToSection('contact')}>CONTACT</button>
           </div>
         </div>
 
