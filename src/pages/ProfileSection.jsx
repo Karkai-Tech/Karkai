@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ScrollStack, { ScrollStackItem } from './ScrollStack.jsx';
 
 const ProfileSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -92,77 +93,66 @@ const ProfileSection = () => {
 
   return (
     <div className="profile-section">
-      <div className="profile-container">
-        <div className="profile-card">
-          <div className="profile-image">
-            <img src={teamMembers[currentIndex].avatar} alt={teamMembers[currentIndex].name} />
-          </div>
-          <div className="profile-content">
-            <div className="profile-greeting">Hi, I'm {teamMembers[currentIndex].name}</div>
-            <div className="profile-role">
-              <span className="role-line-1">CREATIVE</span>
-              <span className="role-line-2">WEBFLOW DEVELOPER</span>
-            </div>
-            <div className="profile-link">
-              <span className="asterisk">*</span>
-              <span>See my work in my Portfolio</span>
-            </div>
-            <div className="profile-separator"></div>
-            <div className="profile-description">
-              {teamMembers[currentIndex].description}
-            </div>
-            <div className="profile-actions">
-              <button className="action-btn linkedin-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </button>
-              <button className="action-btn portfolio-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="profile-indicators">
-          {teamMembers.map((_, index) => (
-            <div
-              key={index}
-              className={`indicator ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(index)}
-            />
+      <div className="profile-stack-window">
+        <ScrollStack className="profile-stack-global" useWindowScroll={true} itemDistance={80} itemScale={0.02} itemStackDistance={15} baseScale={0.9}>
+          {teamMembers.map((member, idx) => (
+            <ScrollStackItem key={member.id}>
+              <div className="profile-card">
+                <div className="profile-image">
+                  <img src={member.avatar} alt={member.name} />
+                </div>
+                <div className="profile-content">
+                  <div className="profile-greeting">Hi, I'm {member.name}</div>
+                  <div className="profile-role">
+                    <span className="role-line-1">{member.role.split(' ')[0]}</span>
+                    <span className="role-line-2">{member.role.split(' ').slice(1).join(' ')}</span>
+                  </div>
+                  <div className="profile-link">
+                    <span className="asterisk">*</span>
+                    <span>See my work in my Portfolio</span>
+                  </div>
+                  <div className="profile-separator"></div>
+                  <div className="profile-description">{member.description}</div>
+                  <div className="profile-actions">
+                    <button className="action-btn linkedin-btn">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                      </svg>
+                    </button>
+                    <button className="action-btn portfolio-btn">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ScrollStackItem>
           ))}
-        </div>
+        </ScrollStack>
       </div>
 
       <style>{`
         .profile-section {
           background-color: #F5EEDC;
-          padding: 120px 32px;
+          padding: 0 0 10vh 0;
           min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
         }
 
-        .profile-container {
-          max-width: 1200px;
-          width: 100%;
-          position: relative;
-        }
+        .profile-stack-window { max-width: 1200px; margin: 0 auto; position: relative; height: 100vh; }
+        .profile-stack-global { height: 100vh; position: sticky; top: 0; }
 
         .profile-card {
           background: white;
           border-radius: 24px;
           padding: 48px;
           box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-          display: flex;
+          display: grid;
+          grid-template-columns: 280px 1fr;
           gap: 48px;
           align-items: center;
-          opacity: 0;
-          transform: translateY(50px);
-          transition: all 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+          opacity: 1;
+          transform: none;
         }
 
         .profile-section.visible .profile-card {
@@ -174,9 +164,7 @@ const ProfileSection = () => {
           opacity: 1;
         }
 
-        .profile-image {
-          flex-shrink: 0;
-        }
+        .profile-image { flex-shrink: 0; z-index: 2; }
 
         .profile-image img {
           width: 200px;
@@ -186,9 +174,18 @@ const ProfileSection = () => {
           box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
-        .profile-content {
-          flex: 1;
+        .profile-content { flex: 1; position: relative; z-index: 2; }
+        .profile-side { height: 500px; }
+        .profile-stack { height: 100%; background: transparent; }
+        .stack-title {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-weight: 800;
+          font-size: 28px;
+          color: #222;
+          text-shadow: 0 4px 0 rgba(0,0,0,0.25);
+          margin: 0 0 8px 0;
         }
+        .stack-desc { font-family: Manrope, sans-serif; color: #444; font-size: 14px; margin: 0; }
 
         .profile-greeting {
           font-size: 18px;
@@ -208,7 +205,8 @@ const ProfileSection = () => {
           font-weight: 900;
           color: #222;
           line-height: 1;
-          font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
+          font-family: 'Bricolage Grotesque', sans-serif;
+          text-shadow: 0 6px 0 rgba(0,0,0,0.25);
           letter-spacing: -2px;
         }
 
@@ -219,7 +217,8 @@ const ProfileSection = () => {
           color: #222;
           line-height: 1;
           margin-left: 0;
-          font-family: 'Arial Black', 'Helvetica Neue', sans-serif;
+          font-family: 'Bricolage Grotesque', sans-serif;
+          text-shadow: 0 6px 0 rgba(0,0,0,0.25);
           letter-spacing: -2px;
         }
 
@@ -265,6 +264,7 @@ const ProfileSection = () => {
           margin-bottom: 32px;
           max-width: 480px;
           font-weight: 400;
+          font-family: Manrope, sans-serif;
         }
 
         .profile-actions {
@@ -314,11 +314,7 @@ const ProfileSection = () => {
         }
 
         @media (max-width: 768px) {
-          .profile-card {
-            flex-direction: column;
-            text-align: center;
-            padding: 32px;
-          }
+          .profile-card { grid-template-columns: 1fr; }
 
           .profile-image img {
             width: 150px;

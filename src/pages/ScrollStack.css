@@ -1,0 +1,48 @@
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.scroll-stack-inner {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.scroll-stack-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 800px;
+  padding: 3rem;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0,0,0,0.08);
+  opacity: 1;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: none; /* Remove transitions for smooth animation */
+}
+
+/* Make contents stable during transforms */
+.scroll-stack-card * {
+  transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .scroll-stack-card {
+    width: 95%;
+    padding: 2rem;
+    border-radius: 16px;
+  }
+}
