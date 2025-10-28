@@ -40,7 +40,7 @@ export default function WhatWeOffer() {
 
         .wwo-page {
           min-height: 100vh;
-          background-color: #F5EEDC;
+          background-color: #FFF9EA;
           color: #222;
           position: relative;
           overflow: hidden;

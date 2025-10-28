@@ -241,7 +241,7 @@ const LoveLetters = () => {
 
         .love-letters-page {
           min-height: 100vh;
-          background-color: #F5EEDC;
+          background-color: #FFF9EA;
           color: #222;
           font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
           /* Critical for allowing children to use 100vw without triggering page scrollbars */

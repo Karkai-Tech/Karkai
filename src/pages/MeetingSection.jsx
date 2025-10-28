@@ -231,7 +231,7 @@ Best regards`;
 
       <style>{`
         .meeting-section {
-          background-color: #F5EEDC;
+          background-color: #FFF9EA;
           padding: 120px 32px;
           min-height: 100vh;
         }

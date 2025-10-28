@@ -131,7 +131,7 @@ const ProfileSection = () => {
 
       <style>{`
         :root {
-          --profile-bg-color: #F5EEDC;
+          --profile-bg-color: #FFF9EA;
           --profile-card-bg: white;
           --profile-text-color: #333;
           --profile-title-color: #222;
