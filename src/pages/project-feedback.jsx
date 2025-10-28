@@ -61,38 +61,6 @@ const App = () => {
     }
   ];
 
-  // Love letters content (quote, name, role, avatar)
-  const testimonials = [
-    {
-      quote:
-        "The impact has been enormous. Our team writes emails in half the time and gets twice as many replies.",
-      name: "Kyle Coleman",
-      role: "Formerly CMO at Clari",
-      avatar: "https://i.pravatar.cc/80?img=12",
-    },
-    {
-      quote:
-        "As an SDR, I love that it keeps me honest when I wax poetic. Our response rate is up.",
-      name: "Robby G.",
-      role: "Sales Development Representative",
-      avatar: "https://i.pravatar.cc/80?img=32",
-    },
-    {
-      quote:
-        "Easy to set up, incredibly useful insights, and a writing process focused on data over guessing.",
-      name: "Sydney Senior",
-      role: "Account Executive",
-      avatar: "https://i.pravatar.cc/80?img=48",
-    },
-    {
-      quote:
-        "Ridiculously smooth delivery and flawless execution. The craft and care show in every detail.",
-      name: "Alex Patel",
-      role: "Product Lead",
-      avatar: "https://i.pravatar.cc/80?img=5",
-    },
-  ];
-
   return (
     <div className="app-container">
       {/* Projects Section */}
@@ -185,35 +153,7 @@ const App = () => {
           </div>
         </div>
       )}
-
-      {/* Love Letters Section */}
-      <div className="love-letters-section">
-        {/* Header */}
-        <div className="love-letters-header lp-reveal">
-          <h1 className="love-letters-title lp-letters" data-text="Love Letters">Love Letters</h1>
-          <p className="love-letters-description">
-            We cherish each customer message as a heartfelt love letter your trust inspires our unwavering commitment to excellence and fuels our passion to exceed expectations
-          </p>
-        </div>
-
-        {/* Marquee Love Cards */}
-        <div className="love-marquee lp-reveal" onMouseEnter={(e)=>e.currentTarget.classList.add('paused')} onMouseLeave={(e)=>e.currentTarget.classList.remove('paused')}>
-          <div className="love-track">
-            {[...testimonials, ...testimonials].map((t, i) => (
-              <div key={i} className={`love-card love-${(i%4)+1}`}>
-                <div className="love-quote">“{t.quote}”</div>
-                <div className="love-meta">
-                  <img className="love-avatar" src={t.avatar} alt={t.name} />
-                  <div className="love-info">
-                    <div className="love-name">{t.name}</div>
-                    <div className="love-role">{t.role}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+     
 
       <style>{`
         * {
@@ -393,81 +333,9 @@ const App = () => {
           color: #666666;
         }
 
-        /* Love Letters Section */
-        .love-letters-section {
-          max-width: 1280px;
-          margin: 0 auto;
-          padding: 120px 32px 180px;
-        }
-
-        .love-letters-header {
-          text-align: center;
-          margin-bottom: 100px;
-        }
-
-        .love-letters-title {
-          font-size: 72px;
-          font-weight: 700;
-          margin-bottom: 40px;
-          color: #222;
-          letter-spacing: -1.5px;
-        }
-
-        .love-letters-description {
-          font-size: 18px;
-          max-width: 750px;
-          margin: 0 auto;
-          line-height: 1.7;
-          color: #222;
-          font-weight: 400;
-        }
-
-        /* Love marquee */
         /* Reveal utility for this page */
         .lp-reveal { opacity: 0; transform: translateY(26px); }
         .lp-reveal.is-visible { opacity: 1; transform: translateY(0); transition: transform 900ms ease, opacity 900ms ease; }
-
-        /* Love marquee */
-        .love-marquee { position: relative; overflow: hidden; }
-        /* Edge fade overlays (do not clip cards) */
-        .love-marquee::before,
-        .love-marquee::after {
-          content: '';
-          position: absolute;
-          top: 0; bottom: 0;
-          width: 120px;
-          pointer-events: none;
-          z-index: 2;
-        }
-        .love-marquee::before {
-          left: 0;
-          background: linear-gradient(90deg, rgba(245,238,220,1) 0%, rgba(245,238,220,0.9) 35%, rgba(245,238,220,0.5) 60%, rgba(245,238,220,0) 100%);
-        }
-        .love-marquee::after {
-          right: 0;
-          background: linear-gradient(-90deg, rgba(245,238,220,1) 0%, rgba(245,238,220,0.9) 35%, rgba(245,238,220,0.5) 60%, rgba(245,238,220,0) 100%);
-        }
-        .love-marquee.paused .love-track { animation-play-state: paused; }
-        .love-track { display: flex; gap: 32px; will-change: transform; animation: scrollX 26s linear infinite; }
-        @keyframes scrollX { from { transform: translateX(0) } to { transform: translateX(-50%) } }
-
-        .love-card {
-          min-width: 560px;
-          background: #fff;
-          border-radius: 28px;
-          padding: 56px 40px;
-          box-shadow: 0 22px 48px rgba(0,0,0,0.18);
-          transform: rotate(-2deg);
-        }
-        .love-1 { background: #CDB4FF; }
-        .love-2 { background: #FDC5F5; transform: rotate(3deg); }
-        .love-3 { background: #BDE0FE; transform: rotate(-4deg); }
-        .love-4 { background: #C7F9CC; transform: rotate(2deg); }
-        .love-quote { font-size: 30px; line-height: 1.5; color: #111; letter-spacing: -0.2px; margin-bottom: 28px; }
-        .love-meta { display: flex; align-items: center; gap: 14px; }
-        .love-avatar { width: 48px; height: 48px; border-radius: 9999px; box-shadow: 0 6px 12px rgba(0,0,0,0.18); object-fit: cover; }
-        .love-name { font-weight: 700; color: #111; }
-        .love-role { color: #222; opacity: .9; font-weight: 500; }
         
         @keyframes fadeIn {
           from {
@@ -481,11 +349,6 @@ const App = () => {
         }
 
         /* Responsive adjustments */
-        @media (max-width: 1024px) {
-          .love-card { min-width: 480px; padding: 46px 34px; }
-          .love-quote { font-size: 26px; line-height: 1.45; }
-        }
-
         @media (max-width: 768px) {
           .folders-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -501,13 +364,6 @@ const App = () => {
           .header-subtitle {
             font-size: 32px;
           }
-
-          .love-letters-title {
-            font-size: 48px;
-          }
-
-          .love-card { min-width: 340px; padding: 32px; }
-          .love-quote { font-size: 20px; line-height: 1.5; }
         }
 
         @media (max-width: 480px) {
@@ -523,12 +379,6 @@ const App = () => {
           .folder-title {
             font-size: 12px;
           }
-
-          .love-letters-section {
-            padding: 80px 20px 120px;
-          }
-
-          .love-track { gap: 16px; }
         }
       `}</style>
     </div>

@@ -1,15 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './LandingPage.css'
 import karkaiLogo from './image/karkai-removebg-preview.png'
 
 export default function LandingPage() {
+  const videoSectionRef = useRef(null);
+
   useEffect(() => {
     const onScroll = () => {
       const header = document.querySelector('.lp-topBar')
       if (!header) return
       if (window.scrollY > 8) header.classList.add('lp-stuck')
       else header.classList.remove('lp-stuck')
+
+      // Show video section when scrolling
+      if (videoSectionRef.current) {
+        const rect = videoSectionRef.current.getBoundingClientRect()
+        const windowHeight = window.innerHeight
+        
+        // If the video section is in viewport
+        if (rect.top < windowHeight && rect.top > -rect.height) {
+          videoSectionRef.current.classList.add('visible')
+        }
+      }
     }
+    
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -17,7 +31,14 @@ export default function LandingPage() {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      const offset = 80; // Height of fixed navbar
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
     }
   }
 
@@ -29,11 +50,9 @@ export default function LandingPage() {
           <img src={karkaiLogo} alt="KARKAI" className="lp-brandLogoSmall lp-pop" />
           <div className="lp-navPill">
             <div className="lp-navItem" onClick={() => scrollToSection('home')}>HOME</div>
-            <div className="lp-navItem" onClick={() => scrollToSection('what-we-offer')}>WHAT WE OFFER</div>
             <div className="lp-navItem" onClick={() => scrollToSection('projects')}>PROJECTS</div>
             <div className="lp-navItem" onClick={() => scrollToSection('about-us')}>ABOUT US</div>
             <div className="lp-navItem" onClick={() => scrollToSection('meeting')}>MEETING</div>
-            <div className="lp-navItem" onClick={() => scrollToSection('love-letters')}>LOVE LETTERS</div>
             <div className="lp-navItem" onClick={() => scrollToSection('contact')}>CONTACT</div>
           </div>
           {/* 2x2 grid icon on the top right */}
@@ -63,7 +82,7 @@ export default function LandingPage() {
         </div>
 
         {/* Video / Intro Section */}
-        <section className="lp-videoSection">
+        <section className="lp-videoSection" ref={videoSectionRef}>
           <div className="lp-videoCard lp-reveal">
             {/* Play button mock to resemble YouTube style */}
             <div className="lp-playButton">

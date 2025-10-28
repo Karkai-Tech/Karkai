@@ -13,7 +13,7 @@ const ScrollStack = ({
   itemStackDistance = 30,
   stackPosition = '20%',
   scaleEndPosition = '10%',
-  baseScale = 0.85,
+  baseScale = 0.9, 
   useWindowScroll = false,
   onStackComplete
 }) => {
@@ -22,6 +22,7 @@ const ScrollStack = ({
   const lastTransformsRef = useRef(new Map())
   const isUpdatingRef = useRef(false)
   const stackStartRef = useRef(null)
+  const initialOffsetRef = useRef(null)
 
   const getScrollData = useCallback(() => {
     if (useWindowScroll) {
@@ -41,8 +42,15 @@ const ScrollStack = ({
   const getElementOffset = useCallback(
     element => {
       if (useWindowScroll) {
+        // Use cached initial offset if available (for sticky elements)
+        if (initialOffsetRef.current !== null) {
+          return initialOffsetRef.current
+        }
+        // Calculate and cache the initial offset
         const rect = element.getBoundingClientRect()
-        return rect.top + window.scrollY
+        const offset = rect.top + window.scrollY
+        initialOffsetRef.current = offset
+        return offset
       } else {
         return element.offsetTop
       }
@@ -57,134 +65,179 @@ const ScrollStack = ({
 
     const { scrollTop, containerHeight } = getScrollData()
     const totalCards = cardsRef.current.length
-
-    // Get the stack start position
-    const stackStart = stackStartRef.current ? getElementOffset(stackStartRef.current) : 0
     
-    // Calculate scroll progress through the stack
-    const stackHeight = containerHeight * 1.5 // Stack takes 1.5 viewport heights
-    const stackEnd = stackStart + stackHeight
-    const scrollProgress = Math.max(0, Math.min(1, (scrollTop - stackStart) / stackHeight))
+    // Get the absolute start position of the scrollable content
+    const stackStartAbsolute = stackStartRef.current 
+      ? getElementOffset(stackStartRef.current) 
+      : 0
     
-    // Calculate which card should be active
-    const activeCardIndex = Math.min(Math.floor(scrollProgress * totalCards), totalCards - 1)
+    const cardTransitionHeight = containerHeight
+    
+    // Calculate scroll relative to the start of the sticky section
+    let relativeScroll = Math.max(0, scrollTop - stackStartAbsolute)
 
+    // Clamp the relative scroll to prevent over-scrolling
+    const maxScroll = (totalCards - 1) * cardTransitionHeight
+    relativeScroll = Math.min(relativeScroll, maxScroll)
+
+    // Which card should be active (0 to N-1)
+    let activeCardIndex = Math.min(Math.floor(relativeScroll / cardTransitionHeight), totalCards - 1)
+    
+    // Progress of the transition between activeCardIndex and activeCardIndex + 1 (0 to 1)
+    let cardProgress = (relativeScroll % cardTransitionHeight) / cardTransitionHeight
+    
     cardsRef.current.forEach((card, i) => {
       if (!card) return
 
-      // Calculate transforms for each card
-      const isActive = i === activeCardIndex
-      const isPast = i < activeCardIndex
-      const isFuture = i > activeCardIndex
-
       let translateY = 0
-      let scale = 1
-      let opacity = 1
+      let scale = baseScale
+      let opacity = 0
       let zIndex = totalCards - i
 
-      if (isActive) {
-        // Active card - full size and opacity
-        scale = 1
-        opacity = 1
+      if (i === activeCardIndex) {
+        // Current active card: transitions out
+        scale = 1 - ((1 - baseScale) * cardProgress)
+        opacity = 1 - (0.6 * cardProgress)
+        translateY = -cardTransitionHeight * cardProgress * 0.15
+        zIndex = totalCards + 20
+
+      } else if (i === activeCardIndex + 1) {
+        // Next card: transitions in
+        translateY = cardTransitionHeight * (1 - cardProgress) * 0.15
+        scale = baseScale + (1 - baseScale) * cardProgress
+        opacity = 0.4 + (0.6 * cardProgress)
         zIndex = totalCards + 10
-      } else if (isPast) {
-        // Past cards - slightly behind and dimmed
-        translateY = i * 20
-        scale = 0.95
-        opacity = 0.6
+        
+      } else if (i < activeCardIndex) {
+        // Past cards: positioned above and hidden
+        translateY = -cardTransitionHeight * 2
+        scale = baseScale
+        opacity = 0
         zIndex = totalCards - i
-      } else if (isFuture) {
-        // Future cards - stacked behind with scale
-        translateY = i * itemStackDistance
-        scale = baseScale + (i - activeCardIndex) * itemScale
-        opacity = 0.8
+        
+      } else {
+        // Future cards: positioned below and hidden
+        translateY = cardTransitionHeight * 2
+        scale = baseScale
+        opacity = 0
         zIndex = totalCards - i
       }
 
-      // Apply transforms
-      const transform = `translate3d(0, ${translateY}px, 0) scale(${scale})`
+      // Ensure the last card stays visible when animation completes
+      if (activeCardIndex === totalCards - 1 && i === totalCards - 1) {
+        translateY = 0
+        scale = 1
+        opacity = 1
+        zIndex = totalCards + 20
+      }
+
+      // Apply transforms with improved positioning
+      const transform = `translate(-50%, calc(-50% + ${translateY}px)) scale(${scale})`
       
       card.style.transform = transform
       card.style.opacity = String(opacity)
-      card.style.zIndex = String(zIndex)
-      card.style.pointerEvents = isActive ? 'auto' : 'none'
+      card.style.zIndex = String(Math.round(zIndex))
+      card.style.visibility = opacity > 0 ? 'visible' : 'hidden'
+      card.style.pointerEvents = i === activeCardIndex ? 'auto' : 'none'
       
       lastTransformsRef.current.set(i, { transform, opacity, scale, translateY })
     })
 
     isUpdatingRef.current = false
   }, [
-    itemScale,
-    itemStackDistance,
-    baseScale,
     useWindowScroll,
     getScrollData,
-    getElementOffset
+    getElementOffset,
+    baseScale,
+    onStackComplete
   ])
 
   const handleScroll = useCallback(() => {
-    updateCardTransforms()
+    // Use requestAnimationFrame for smooth animation
+    requestAnimationFrame(() => {
+      updateCardTransforms()
+    })
   }, [updateCardTransforms])
 
   useLayoutEffect(() => {
-    const scroller = scrollerRef.current
+    const scroller = useWindowScroll ? window : scrollerRef.current
     if (!scroller) return
 
-    // Find all cards
-    const cards = Array.from(
-      useWindowScroll
-        ? document.querySelectorAll('.scroll-stack-card')
-        : scroller.querySelectorAll('.scroll-stack-card')
+    const cards = Array.from(document.querySelectorAll('.scroll-stack-card')).filter(card => 
+      stackStartRef.current?.contains(card)
     )
-
+    
     cardsRef.current = cards
 
-    // Setup cards with proper positioning
     cards.forEach((card, i) => {
       card.style.willChange = 'transform, opacity'
       card.style.transformOrigin = 'center center'
       card.style.position = 'absolute'
-      card.style.top = '0'
-      card.style.left = '0'
+      card.style.top = '50%'
+      card.style.left = '50%'
+      card.style.transform = 'translate(-50%, -50%)'
       card.style.width = '100%'
+      card.style.maxWidth = '1000px'
+      card.style.isolation = 'isolate'
+      card.style.overflow = 'hidden'
+      card.style.transition = 'none'
+      
+      // Set initial state - only first card visible
+      if (i === 0) {
+        card.style.opacity = '1'
+        card.style.zIndex = '100'
+        card.style.transform = 'translate(-50%, -50%) scale(1)'
+        card.style.visibility = 'visible'
+      } else {
+        card.style.opacity = '0'
+        card.style.zIndex = '1'
+        card.style.transform = 'translate(-50%, calc(-50% + 1200px)) scale(0.8)'
+        card.style.visibility = 'hidden'
+      }
     })
 
-    // Setup scroll listener
-    const scrollHandler = () => {
-      requestAnimationFrame(handleScroll)
-    }
-
     if (useWindowScroll) {
-      window.addEventListener('scroll', scrollHandler, { passive: true })
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      window.addEventListener('resize', handleScroll, { passive: true })
+      // Also listen for wheel events for better scroll detection
+      window.addEventListener('wheel', handleScroll, { passive: true })
     } else {
-      scroller.addEventListener('scroll', scrollHandler, { passive: true })
+      scroller.addEventListener('scroll', handleScroll, { passive: true })
+      window.addEventListener('resize', handleScroll, { passive: true })
     }
 
-    // Initial update
-    updateCardTransforms()
+    // Trigger initial update immediately
+    requestAnimationFrame(() => {
+      updateCardTransforms()
+    })
 
     return () => {
       if (useWindowScroll) {
-        window.removeEventListener('scroll', scrollHandler)
+        window.removeEventListener('scroll', handleScroll)
+        window.removeEventListener('resize', handleScroll)
+        window.removeEventListener('wheel', handleScroll)
       } else {
-        scroller.removeEventListener('scroll', scrollHandler)
+        scroller.removeEventListener('scroll', handleScroll)
+        window.removeEventListener('resize', handleScroll)
       }
       cardsRef.current = []
       lastTransformsRef.current.clear()
       isUpdatingRef.current = false
     }
   }, [
-    itemScale,
-    itemStackDistance,
     baseScale,
     useWindowScroll,
     updateCardTransforms,
     handleScroll
   ])
 
+  const innerHeightStyle = useWindowScroll 
+    ? { height: `${cardsRef.current.length * 100}vh` } 
+    : { height: 'auto' };
+
   return (
     <div className={`scroll-stack-scroller ${className}`.trim()} ref={scrollerRef}>
-      <div className="scroll-stack-inner" ref={stackStartRef}>
+      <div className="scroll-stack-inner" ref={stackStartRef} style={innerHeightStyle}>
         {children}
       </div>
     </div>
@@ -192,4 +245,3 @@ const ScrollStack = ({
 }
 
 export default ScrollStack
-
