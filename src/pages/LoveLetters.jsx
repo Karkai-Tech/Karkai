@@ -277,6 +277,7 @@ const LoveLetters = () => {
             /* Crucial: Remove internal padding to let cards touch the edge */
             padding-left: 0; 
             padding-right: 0;
+            padding:50px 0;
             
             /* Hide scrollbar */
             scrollbar-width: none;
