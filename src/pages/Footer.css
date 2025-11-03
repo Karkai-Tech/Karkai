@@ -35,6 +35,7 @@
   line-height: 1.2;
   margin: 0;
   letter-spacing: 1px;
+  text-shadow: 0 3px 2px rgba(0,0,0,0.45);
 }
 
 /* Call-to-Action Buttons */
@@ -47,7 +48,7 @@
 .footer-btn {
   padding: 12px 32px;
   border-radius: 12px;
-  background: #E8E8E8;
+  background: transparent;
   border: 1px solid #000;
   color: #222;
   font-family: 'Manrope', sans-serif;
@@ -55,7 +56,8 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 0 rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.12);
+  font-size: 14px;;
   min-width: 140px;
 }
 
@@ -82,7 +84,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #E8E8E8;
+  background: transparent;
   border: 1px solid #000;
   display: flex;
   align-items: center;
@@ -90,7 +92,8 @@
   color: #222;
   text-decoration: none;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 0 rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.12);
+  font-size: 14px;
 }
 
 .social-icon:hover {

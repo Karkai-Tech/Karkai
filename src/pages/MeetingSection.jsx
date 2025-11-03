@@ -75,7 +75,7 @@ const MeetingSection = () => {
       const meetingDateTime = `${meetingDate.toDateString()} at ${selectedTime}`;
       
       // Create email body
-      const emailBody = `Hi Karkai Team,
+      const emailBody = `Hi OnetoZ Team,
 
 I would like to schedule a 25-minute strategy call.
 
@@ -86,7 +86,7 @@ Please confirm this time slot works for you.
 Best regards`;
 
       // Open email client
-      const emailLink = `mailto:karkaisolution@gmail.com?subject=Meeting Request - 25-Minute Strategy Call&body=${encodeURIComponent(emailBody)}`;
+      const emailLink = `mailto:OnetoZsolution@gmail.com?subject=Meeting Request - 25-Minute Strategy Call&body=${encodeURIComponent(emailBody)}`;
       window.open(emailLink);
     }
   };
@@ -135,7 +135,7 @@ Best regards`;
             <div className="scheduler-header">
               <div className="meeting-icon">●</div>
               <div className="meeting-info">
-                <div className="company-name">Karkai</div>
+                <div className="company-name">OnetoZ</div>
                 <div className="meeting-title-scheduler">25-Minute Strategy Call</div>
                 <div className="meeting-description-scheduler">
                   A short call to understand your goals and see how our team can help you move forward with a clear plan of action.

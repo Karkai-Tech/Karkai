@@ -42,15 +42,9 @@ const ScrollStack = ({
   const getElementOffset = useCallback(
     element => {
       if (useWindowScroll) {
-        // Use cached initial offset if available (for sticky elements)
-        if (initialOffsetRef.current !== null) {
-          return initialOffsetRef.current
-        }
-        // Calculate and cache the initial offset
+        // Recompute each time to avoid stale offsets with sticky layouts
         const rect = element.getBoundingClientRect()
-        const offset = rect.top + window.scrollY
-        initialOffsetRef.current = offset
-        return offset
+        return rect.top + window.scrollY
       } else {
         return element.offsetTop
       }
@@ -231,8 +225,9 @@ const ScrollStack = ({
     handleScroll
   ])
 
+  const childCount = Array.isArray(children) ? children.length : 1;
   const innerHeightStyle = useWindowScroll 
-    ? { height: `${cardsRef.current.length * 100}vh` } 
+    ? { height: `${Math.max(childCount, 1) * 100}vh` } 
     : { height: 'auto' };
 
   return (

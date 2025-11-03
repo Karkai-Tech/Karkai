@@ -146,6 +146,7 @@ export default function WhatWeOffer() {
           margin-bottom: 24px;
           letter-spacing: 2px;
           text-transform: uppercase;
+          text-shadow: 0 3px 2px rgba(0,0,0,0.45);
         }
 
         .wwo-description {

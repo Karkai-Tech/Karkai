@@ -255,7 +255,7 @@ const LoveLetters = () => {
           padding: 120px 32px 100px;
         }
         .love-letters-header { text-align: center; }
-        .love-letters-title { font-size: 72px; font-weight: 700; margin-bottom: 40px; color: #222; letter-spacing: -1.5px; }
+        .love-letters-title { font-size: 72px; font-weight: 700; margin-bottom: 40px; color: #222; letter-spacing: -1.5px; text-shadow: 0 3px 2px rgba(0,0,0,0.45); }
         .love-letters-description { font-size: 18px; max-width: 750px; margin: 0 auto; line-height: 1.7; color: #222; font-weight: 400; }
 
         /* --- Marquee Container for Full Width (THE KEY TO FREE-FLOATING) --- */

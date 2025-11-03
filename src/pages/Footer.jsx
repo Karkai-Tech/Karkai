@@ -45,7 +45,7 @@ export default function Footer() {
 
         {/* Contact Email */}
         <div className="footer-email">
-          <a href="mailto:karkai@gmail.com" className="email-link">
+          <a href="mailto:OnetoZ@gmail.com" className="email-link">
             
           </a>
         </div>
