@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import './LandingPage.css'
-import karkaiLogo from './image/karkai-removebg-preview.png'
+import onetoZLogo from './image/OnetoZ_logo.png'
+import ozLogo from './image/OZ logo.png'
 
 export default function LandingPage() {
   const videoSectionRef = useRef(null);
@@ -47,7 +48,7 @@ export default function LandingPage() {
       <div className="lp-container">
         <div className="lp-topBar lp-enter-up">
           {/* Small logo at the top (left) */}
-          <img src={karkaiLogo} alt="KARKAI" className="lp-brandLogoSmall lp-pop" />
+          <img src={ozLogo} alt="OZ" className="lp-brandLogoSmall lp-pop" />
           <div className="lp-navPill">
             <div className="lp-navItem" onClick={() => scrollToSection('home')}>HOME</div>
             <div className="lp-navItem" onClick={() => scrollToSection('projects')}>PROJECTS</div>
@@ -65,12 +66,14 @@ export default function LandingPage() {
         </div>
 
         <div className="lp-hero">
-          {/* Large centered logo in the hero */}
-          <img src={karkaiLogo} alt="KARKAI" className="lp-logoBig lp-fade-in" />
+          {/* OnetoZ wordmark on top */}
+          <img src={onetoZLogo} alt="OneToZ" className="lp-logoWord lp-fade-in" />
+          {/* OZ circle logo under the wordmark */}
+          <img src={ozLogo} alt="OZ" className="lp-logoHeroOZ lp-fade-in" />
           <div className="lp-quote lp-letters" data-text="Connecting Minds, Creating Tomorrow">
             "Connecting Minds, Creating Tomorrow"
           </div>
-          <div className="lp-sub lp-reveal">
+          <div className="lp-sub lp-fade-in">
             To craft designs and systems that feel effortless,
             <br />
             timeless, and truly centered around the people who use them.
@@ -91,7 +94,7 @@ export default function LandingPage() {
           </div>
           <p className="lp-videoCaption lp-reveal">
             We blend minimal design with scalable intelligence, crafting solutions
-            that adapt and grow with you. At KARKAI, every interface is
+            that adapt and grow with you. At OnetoZ, every interface is
             made to feel effortless and timeless.
           </p>
         </section>

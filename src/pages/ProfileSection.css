@@ -1,0 +1,285 @@
+:root {
+  --profile-bg-color: #FFF9EA;
+  --profile-card-bg: white;
+  --profile-text-color: #333;
+  --profile-title-color: #222;
+  --profile-accent-color: #ff6b6b;
+}
+
+/* === SECTION & WRAPPER === */
+.profile-section {
+  background-color: var(--profile-bg-color);
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.profile-list-stacked {
+  padding-top: 120px;
+}
+
+/* === CARD === */
+.profile-card {
+  background: var(--profile-card-bg);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  display: flex;
+  gap: 60px;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  position: sticky;
+  top: 80px;
+  margin-bottom: 45vh;
+  transform: scale(0.94);
+  opacity: 0.4;
+  transition: transform .35s ease, opacity .35s ease, box-shadow .35s ease;
+}
+
+.profile-card.is-visible {
+  transform: scale(1);
+  opacity: 1;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+/* === IMAGE === */
+.profile-image {
+  flex-shrink: 0;
+}
+
+.profile-image img {
+  width: 400px;
+  height: 550px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* === TEXT CONTENT === */
+.profile-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  left: -40px;
+}
+
+/* === 3-LINE ROLE HEADING === */
+.profile-role {
+  width: 520px;
+  text-align: left;
+  text-transform: uppercase;
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 40px;
+  overflow: visible;
+  white-space: normal;
+  word-break: keep-all;
+  position: relative;
+}
+
+.role-line-1,
+.role-line-2,
+.role-line-3 {
+  display: block;
+  font-size: 46px;
+  letter-spacing: -0.5px;
+  text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.25);
+  white-space: nowrap; /* each line forced single line */
+  position: relative;
+  top: 10px;
+}
+
+/* Staggered stepped design */
+.role-line-1 {
+  color: #111;
+  left: 0;
+  position: relative;
+}
+.role-line-2 {
+  color: var(--profile-accent-color);
+  left: 30px;
+  position: relative;
+  left: -0px;
+}
+.role-line-3 {
+  color: #111;
+  left: 60px;
+  position: relative;
+  left: 0px;
+}
+
+/* === GREETING === */
+.profile-greeting {
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.3px;
+  color: #111;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  left: 3px;
+  top: -220px;
+}
+
+/* === PORTFOLIO LINK === */
+.profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #111;
+  font-size: 14px;
+  position: relative;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+}
+
+.asterisk {
+  color: var(--profile-accent-color);
+  font-weight: bold;
+  font-size: 30px;
+  position: relative;
+  top: -40px;
+}
+
+.asterisk-1{
+  color: var(--profile-accent-color);
+  font-weight: bold;
+  font-size: 30px;
+  position: relative;
+  top: -40px;
+  left: 415px;
+}
+
+.portfolio-tagline{
+  position: relative;
+  left: 410px;
+  top: -45px;
+}
+
+.profile-link::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  right: -200px;
+  top: -80%;
+  height: 2px;
+  background: #111;
+  transform: translateY(-50%);
+  
+}
+
+/* === DESCRIPTION === */
+.profile-description {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #111;
+  margin: 0 0 16px 0;
+  max-width: 480px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  border-left: 2px solid #111;
+  padding-left: 24px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+  top: -60px;
+  left: 5px;
+}
+
+/* === ACTION BUTTONS === */
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #000;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35), 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.portfolio-text-btn {
+  width: auto;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.action-btn:hover {
+  background: var(--profile-title-color);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .profile-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 28px;
+    gap: 20px;
+  }
+
+  .profile-content {
+    align-items: center;
+  }
+
+  .profile-image img {
+    width: 220px;
+    height: 300px;
+  }
+
+  .profile-role {
+    width: 100%;
+  }
+
+  .role-line-1,
+  .role-line-2,
+  .role-line-3 {
+    font-size: 32px;
+    left: 0;
+  }
+
+  .profile-greeting {
+    left: 0;
+    top: 0;
+    margin-top: 20px;
+  }
+
+  .profile-actions {
+    justify-content: center;
+  }
+}

@@ -24,8 +24,8 @@
   justify-content: center;
   margin-bottom: 29px;
   padding: 10px 0;
-  backdrop-filter: blur(6px);
-  background: #FFF9EA;
+  backdrop-filter: none;
+  background: transparent;
 }
 .lp-stuck .lp-navPill { box-shadow: 0 2px 0 rgba(0,0,0,0.25), 0 10px 24px rgba(0,0,0,0.12) inset; }
 
@@ -33,10 +33,20 @@
   position: absolute;
   left: 15px;
   size: 22px;
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
   filter: drop-shadow(0 1px 0 rgba(0,0,0,0.35));
+}
+
+/* OZ circle logo on top */
+.lp-logoHeroOZ {
+  width: 300px;
+  height: auto;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,0.35));
+  margin-top: 6px;
+  position: relative;
+  top: -350px;
 }
 
 .lp-navPill {
@@ -67,49 +77,56 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 22px;
-  padding-top: 135px;
+  gap: 18px;
+  padding-top: 140px;
+  margin-bottom: -300px;
+
 }
 
-.lp-logoBig {
-  width: 480px;
-  position: relative;
-  top: -150px;
+/* OnetoZ wordmark (under the circle) */
+.lp-logoWord {
+  width: 360px;
   height: auto;
   filter: drop-shadow(0 2px 0 rgba(0,0,0,0.5));
+  position: relative;
+  top: -100px;
 }
 
 .lp-quote {
   font-size: 28px;
-  position: relative;
-  top: -300px;
   font-weight: 500;
   max-width: 900px;
   font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  margin-top: 8px;
+  position: relative;
+  top: -460px;
+  text-shadow: 0 3px 2px rgba(0,0,0,0.45);
 }
 
 .lp-sub {
   max-width: 1000px;
-  font-size: 22px;
-  position: relative;
-  top: -290px;
+  font-size: 26px;
   line-height: 1.6;
   color: #333;
   font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  margin-top: 6px;
+  position: relative;
+  top: -480px;
+  text-shadow: 0 2px 2px rgba(0,0,0,0.4);
 }
 
 .lp-ctaRow {
-  margin-top: 24px;
-  position: relative;
-  top: -270px;
+  margin-top: 20px;
   display: flex;
   gap: 48px;
+  position: relative;
+  top: -460px;
 }
 
 .lp-cta {
   padding: 14px 32px;
   border-radius: 16px;
-  background: #FFF9EA;
+  background: transparent;
   border: 1px solid rgba(0,0,0,0.35);
   box-shadow: 0 3px 0 rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.12);
   font-size: 14px;
