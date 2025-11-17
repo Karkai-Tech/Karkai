@@ -1,388 +1,487 @@
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Globe, Smartphone, TrendingUp } from 'lucide-react';
 
-const App = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
+// --- Constants ---
+const PRIMARY_COLOR_LIGHT = '#9cf600ff';
+const PRIMARY_COLOR_DARK = '#22c55e';
+const ACCENT_COLOR_DARK = '#171717';
+const CARD_BG = '#ffffff';
 
-  const projects = [
+// --- Project Data (Streamlined to 3 categories) ---
+const projects = [
     {
-      id: 1,
-      title: 'Website Design & Development',
-      items: [
-        { name: 'E-commerce Platform', description: 'Modern shopping experience', image: '🛍️' },
-        { name: 'Corporate Website', description: 'Professional business presence', image: '💼' },
-        { name: 'Portfolio Site', description: 'Creative showcase', image: '🎨' }
-      ]
+        id: 1,
+        title: 'Full Stack Development',
+        icon: <Globe size={28} color={PRIMARY_COLOR_DARK} />,
+        tagline: 'World-class web applications from front to back-end.',
+        items: [
+            { name: 'E-commerce Platforms', description: 'Scalable solutions for retail and wholesale.', category: 'Web' },
+            { name: 'SaaS & Custom Dashboards', description: 'Bespoke tools for business operations.', category: 'Web' },
+            { name: 'CMS & Website Refactoring', description: 'Modernizing existing digital infrastructure.', category: 'Web' },
+        ]
     },
     {
-      id: 2,
-      title: 'Mobile App Development',
-      items: [
-        { name: 'Fitness Tracker', description: 'Health & wellness app', image: '💪' },
-        { name: 'Food Delivery', description: 'On-demand service', image: '🍕' },
-        { name: 'Social Network', description: 'Connect & share', image: '📱' }
-      ]
+        id: 2,
+        title: 'Mobile App Development',
+        icon: <Smartphone size={28} color={PRIMARY_COLOR_DARK} />,
+        tagline: 'Native and cross-platform apps for iOS and Android.',
+        items: [
+            { name: 'Consumer Lifestyle Apps', description: 'Health, wellness, and social networking.', category: 'Mobile' },
+            { name: 'Enterprise & Utility Apps', description: 'Tools for internal processes and data collection.', category: 'Mobile' },
+            { name: 'Prototyping & MVP Launch', description: 'Fast execution for new business ideas.', category: 'Mobile' },
+        ]
     },
     {
-      id: 3,
-      title: 'UI/UX Design',
-      items: [
-        { name: 'Dashboard Design', description: 'Data visualization', image: '📊' },
-        { name: 'Mobile UI Kit', description: 'Component library', image: '🎯' },
-        { name: 'User Research', description: 'Experience mapping', image: '🔍' }
-      ]
+        id: 3,
+        title: 'Digital Marketing & SEO',
+        icon: <TrendingUp size={28} color={PRIMARY_COLOR_DARK} />,
+        tagline: 'Data-driven strategies for measurable online growth.',
+        items: [
+            { name: 'Local SEO & UX Optimization', description: 'Targeting specific markets in Tamil Nadu.', category: 'Marketing' },
+            { name: 'Conversion Rate Optimization (CRO)', description: 'Turning visitors into paying customers.', category: 'Marketing' },
+            { name: 'Content Strategy & Campaigns', description: 'Engaging content planning and execution.', category: 'Marketing' },
+        ]
     },
-    {
-      id: 4,
-      title: 'Branding & Visual Identity',
-      items: [
-        { name: 'Logo Design', description: 'Brand mark creation', image: '✨' },
-        { name: 'Brand Guidelines', description: 'Visual standards', image: '📋' },
-        { name: 'Marketing Collateral', description: 'Print & digital', image: '🎨' }
-      ]
-    },
-    {
-      id: 5,
-      title: 'Framer / No-Code Solutions',
-      items: [
-        { name: 'Landing Pages', description: 'Quick launches', image: '🚀' },
-        { name: 'Interactive Prototypes', description: 'Design validation', image: '⚡' },
-        { name: 'Web Applications', description: 'No-code apps', image: '🔧' }
-      ]
-    },
-    {
-      id: 6,
-      title: 'Digital Marketing',
-      items: [
-        { name: 'SEO Optimization', description: 'Search visibility', image: '🔎' },
-        { name: 'Social Media', description: 'Brand engagement', image: '📢' },
-        { name: 'Content Strategy', description: 'Marketing plans', image: '📝' }
-      ]
-    }
-  ];
+];
 
-  return (
-    <div className="app-container">
-      {/* Projects Section */}
-      <div className="projects-section">
-        {/* Header */}
-        <div className="header">
-          <h1 className="header-title lp-letters" data-text="Empowering Brands">Empowering Brands</h1>
-          <h2 className="header-subtitle lp-letters" data-text="Through Digital Innovation">Through Digital Innovation</h2>
-        </div>
-
-        {/* Folders Grid */}
-        <div className="folders-grid">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className="folder-item lp-reveal"
-            >
-              {/* Folder */}
-              <div className="folder-wrapper">
-                <svg viewBox="0 0 200 160" className="folder-svg">
-                  {/* Folder back part */}
-                  <path
-                    d="M 10 30 L 10 20 Q 10 10 20 10 L 75 10 Q 80 10 83 15 L 88 23 Q 91 28 96 28 L 180 28 Q 190 28 190 38 L 190 138 Q 190 148 180 148 L 20 148 Q 10 148 10 138 Z"
-                    fill="#FF9800"
-                    stroke="none"
-                  />
-                  {/* Folder front part */}
-                  <path
-                    d="M 15 48 L 15 58 Q 15 63 20 63 L 175 63 Q 185 63 185 73 L 185 153 Q 185 160 175 160 L 25 160 Q 15 160 15 150 Z"
-                    fill="#FFC107"
-                    stroke="none"
-                  />
-                </svg>
-                {/* hover fan of images like design */}
-                <div className="folder-fan">
-                  <div className="fan-card fan-1" />
-                  <div className="fan-card fan-2" />
-                  <div className="fan-card fan-3" />
-                </div>
-              </div>
-              <p className="folder-title">
-                {project.title}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Project Modal */}
-      {selectedProject && (
+// --- Sub-Component: Project Card ---
+const ProjectCard = ({ project, onClick }) => {
+    return (
         <div 
-          className="modal-overlay"
-          onClick={() => setSelectedProject(null)}
+            className="project-card-outer group"
+            onClick={() => onClick(project)}
         >
-          <div 
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedProject(null)}
-              className="modal-close"
-            >
-              <X size={24} color="#000000" />
-            </button>
-            
-            <h3 className="modal-title">
-              {selectedProject.title}
-            </h3>
-            
-            <div className="modal-items">
-              {selectedProject.items.map((item, idx) => (
-                <div 
-                  key={idx}
-                  className="modal-item"
-                >
-                  <div className="modal-item-content">
-                    <div className="modal-item-icon">{item.image}</div>
-                    <div>
-                      <h4 className="modal-item-name">
-                        {item.name}
-                      </h4>
-                      <p className="modal-item-description">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
+            <div className="project-card">
+                {/* Fixed Content (Always Visible) */}
+                <div className="card-header">
+                    {project.icon}
+                    <h3 className="card-title">{project.title}</h3>
                 </div>
-              ))}
+                <p className="card-tagline">{project.tagline}</p>
+                <div className="card-cta">Explore Projects →</div>
+
+                {/* Hover Content (Mimicking 4th image pop-up) */}
+                <div className="card-hover-details">
+                    <div className="details-header">{project.title}</div>
+                    <ul className="details-list">
+                        {project.items.map((item, index) => (
+                            <li key={index} className="details-item">
+                                <span className="details-item-name">{item.name}</span>
+                                <span className="details-item-category">{item.category}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      )}
+    );
+};
+
+
+// --- Main App Component ---
+const App = () => {
+    const [selectedProject, setSelectedProject] = useState(null);
+
+    // Placeholder for a potential modal/alert for "Explore Projects" CTA
+    const handleProjectClick = (project) => {
+        // You can use this to show a detailed modal if needed, 
+        // but for now, we'll just show the console log.
+        // setSelectedProject(project); 
+        console.log('Project card clicked:', project.title);
+        // We will use the modal for the overall app structure, even if not strictly needed now.
+        setSelectedProject(project);
+    };
+
+    return (
+        <div className="app-container">
+            <div className="projects-section">
+                
+                {/* Header Section */}
+                <div className="header">
+                    <h1 className="header-title">Our Capabilities</h1>
+                    <h2 className="header-subtitle">Empowering Brands Through Digital Innovation</h2>
+                </div>
+
+                {/* Cards Grid */}
+                <div className="cards-grid">
+                    {projects.map((project, index) => (
+                        <ProjectCard 
+                            key={project.id} 
+                            project={project} 
+                            onClick={handleProjectClick}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            {/* Project Modal (For the "Explore Projects" action) */}
+            {selectedProject && (
+                <div 
+                    className="modal-overlay"
+                    onClick={() => setSelectedProject(null)}
+                >
+                    <div 
+                        className="modal-content"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={() => setSelectedProject(null)}
+                            className="modal-close"
+                        >
+                            <X size={24} color={ACCENT_COLOR_DARK} />
+                        </button>
+                        
+                        <h3 className="modal-title">
+                            Projects for: {selectedProject.title}
+                        </h3>
+                        
+                        <div className="modal-items-grid">
+                            {selectedProject.items.map((item, idx) => (
+                                <div 
+                                    key={idx}
+                                    className="modal-item"
+                                >
+                                    <div className="modal-item-icon-wrapper">
+                                        <Globe size={24} color={PRIMARY_COLOR_DARK} />
+                                    </div>
+                                    <h4 className="modal-item-name">
+                                        {item.name}
+                                    </h4>
+                                    <p className="modal-item-description">
+                                        {item.description}
+                                    </p>
+                                    <span className="modal-item-category-tag">{item.category}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
      
 
-      <style>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
+            <style>{`
+                /* Global Reset and Font */
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                body {
+                    font-family: 'Inter', sans-serif;
+                    background-color: #FFF9EA; /* White background as requested */
+                    color: ${ACCENT_COLOR_DARK};
+                }
 
-        .app-container {
-          min-height: 100vh;
-          background-color: #FFF9EA;
-          color: #222;
-          font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+                .app-container {
+                    min-height: 100vh;
+                }
 
-        /* Projects Section */
-        .projects-section {
-          max-width: 1152px;
-          margin: 0 auto;
-          padding: 64px 32px;
-        }
+                /* Section Layout */
+                .projects-section {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 100px 32px;
+                }
 
-        .header {
-          text-align: center;
-          margin-bottom: 80px;
-        }
+                .header {
+                    text-align: center;
+                    margin-bottom: 80px;
+                }
 
-        .header-title {
-          font-size: 56px;
-          font-weight: bold;
-          margin-bottom: 10px;
-          color: #222;
-          letter-spacing: -1px;
-        }
+                .header-title {
+                    font-size: 48px;
+                    font-weight: 800;
+                    margin-bottom: 10px;
+                    color: #000000;
+                    letter-spacing: -1px;
+                }
 
-        .header-subtitle {
-          font-size: 56px;
-          font-weight: bold;
-          color: #222;
-          letter-spacing: -1px;
-        }
+                .header-subtitle {
+                    font-size: 24px;
+                    font-weight: 500;
+                    color: #4b5563;
+                }
 
-        .folders-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 60px 80px;
-          max-width: 1100px;
-          margin: 60px auto 0;
-          padding: 0 60px;
-        }
+                /* Cards Grid */
+                .cards-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 40px;
+                }
 
-        .folder-item {
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
+                /* --- Project Card Styles (Mimicking Reference Images) --- */
+                .project-card-outer {
+                    cursor: pointer;
+                    position: relative;
+                    perspective: 1000px; /* For 3D transform */
+                }
 
-        .folder-wrapper {
-          position: relative;
-          transition: transform 240ms ease, filter 240ms ease;
-          width: 100%;
-          max-width: 200px;
-        }
+                .project-card {
+                    background-color: #ffffffff; /* Light gray to stand out slightly from white body */
+                    border-radius: 12px;
+                    padding: 30px;
+                    height: 280px; /* Fixed height for uniformity */
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    position: relative;
+                    overflow: hidden;
+                    border: 1px solid #e5e7eb;
+                    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+                    z-index: 10;
+                }
+                
+                /* Hover effect on the card */
+                .project-card-outer:hover .project-card {
+                    transform: translateY(-8px);
+                    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+                    border-color: ${PRIMARY_COLOR_LIGHT};
+                }
 
-        .folder-item:hover .folder-wrapper {
-          transform: translateY(-8px) scale(1.1);
-          filter: drop-shadow(0 22px 36px rgba(0,0,0,0.26));
-        }
+                .card-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    margin-bottom: 10px;
+                }
 
-        .folder-svg {
-          width: 100%;
-          filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
-          transition: filter .25s ease;
-        }
+                .card-title {
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: ${ACCENT_COLOR_DARK};
+                }
 
-        /* Fan images */
-        .folder-fan { position: absolute; left: 50%; top: -28px; transform: translateX(-50%) translateY(10px); display: flex; gap: 6px; pointer-events: none; opacity: 0; transition: opacity .35s ease, transform .35s ease; }
-        .fan-card { width: 70px; height: 90px; border-radius: 12px; box-shadow: 0 12px 20px rgba(0,0,0,0.18); background-size: cover; background-position: center; }
-        .fan-1 { background-image: url('https://images.unsplash.com/photo-1520975922284-9d09c25c2e1a?q=80&w=500'); transform: rotate(-14deg); }
-        .fan-2 { background-image: url('https://images.unsplash.com/photo-1513883049090-d0b7439799bf?q=80&w=500'); transform: translateY(-6px); }
-        .fan-3 { background-image: url('https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=500'); transform: rotate(12deg); }
-        .folder-item:hover .folder-fan { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+                .card-tagline {
+                    font-size: 16px;
+                    color: #6b7280;
+                    margin-bottom: 20px;
+                }
+                
+                .card-cta {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: ${PRIMARY_COLOR_DARK};
+                    align-self: flex-start;
+                    padding: 8px 15px;
+                    border-radius: 8px;
+                    background-color: ${PRIMARY_COLOR_LIGHT};
+                    transition: background-color 0.2s;
+                }
 
-        .folder-title {
-          text-align: center;
-          margin-top: 18px;
-          font-size: 15px;
-          font-weight: 500;
-          color: #222;
-          line-height: 1.4;
-          max-width: 200px;
-        }
+                .project-card-outer:hover .card-cta {
+                    background-color: ${PRIMARY_COLOR_DARK};
+                    color: ${CARD_BG};
+                }
 
-        /* Modal */
-        .modal-overlay {
-          position: fixed;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 16px;
-          z-index: 50;
-          background-color: rgba(0, 0, 0, 0.75);
-        }
+                /* Hover Detail Pop-up (Mimics the 4th Image) */
+                .card-hover-details {
+                    position: absolute;
+                    inset: 0;
+                    background-color: ${CARD_BG};
+                    padding: 30px;
+                    border-radius: 12px;
+                    
+                    /* Initial hidden state, positioned below */
+                    transform: translateY(100%);
+                    opacity: 0;
+                    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease-out;
+                    z-index: 20;
+                    
+                    /* Box shadow to match the floating look */
+                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+                    
+                    display: flex;
+                    flex-direction: column;
+                }
 
-        .modal-content {
-          border-radius: 24px;
-          padding: 40px;
-          max-width: 768px;
-          width: 100%;
-          position: relative;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-          background-color: #ffffff;
-          animation: fadeIn 0.3s ease-out;
-        }
+                /* Visible state on hover */
+                .project-card-outer:hover .card-hover-details {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
 
-        .modal-close {
-          position: absolute;
-          top: 24px;
-          right: 24px;
-          padding: 8px;
-          border-radius: 9999px;
-          transition: background-color 0.2s;
-          border: none;
-          background: transparent;
-          cursor: pointer;
-        }
+                .details-header {
+                    font-size: 20px;
+                    font-weight: 700;
+                    color: ${ACCENT_COLOR_DARK};
+                    margin-bottom: 20px;
+                    border-bottom: 2px solid ${PRIMARY_COLOR_LIGHT};
+                    padding-bottom: 10px;
+                }
+                
+                .details-list {
+                    list-style: none;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                }
+                
+                .details-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 5px 0;
+                    border-bottom: 1px dotted #e5e7eb;
+                }
 
-        .modal-close:hover {
-          background-color: #f3f4f6;
-        }
+                .details-item-name {
+                    font-weight: 600;
+                    font-size: 15px;
+                    color: ${ACCENT_COLOR_DARK};
+                }
 
-        .modal-title {
-          font-size: 30px;
-          font-weight: bold;
-          margin-bottom: 40px;
-          color: #222;
-        }
+                .details-item-category {
+                    font-size: 12px;
+                    font-weight: 500;
+                    color: #6b7280;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    background-color: #f3f4f6;
+                }
 
-        .modal-items {
-          display: grid;
-          gap: 24px;
-        }
 
-        .modal-item {
-          padding: 24px;
-          border-radius: 16px;
-          transition: box-shadow 0.2s;
-          background-color: #F9F5F0;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+                /* --- Modal Styles (Used for detailed view/click action) --- */
+                .modal-overlay {
+                    position: fixed;
+                    inset: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 16px;
+                    z-index: 50;
+                    background-color: rgba(0, 0, 0, 0.75);
+                }
 
-        .modal-item:hover {
-          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
+                .modal-content {
+                    border-radius: 24px;
+                    padding: 40px;
+                    max-width: 800px;
+                    width: 100%;
+                    position: relative;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    background-color: ${CARD_BG};
+                    animation: fadeIn 0.3s ease-out;
+                }
 
-        .modal-item-content {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-        }
+                .modal-close {
+                    position: absolute;
+                    top: 24px;
+                    right: 24px;
+                    padding: 8px;
+                    border-radius: 9999px;
+                    transition: background-color 0.2s;
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                }
 
-        .modal-item-icon {
-          font-size: 48px;
-        }
+                .modal-close:hover {
+                    background-color: #f3f4f6;
+                }
 
-        .modal-item-name {
-          font-size: 20px;
-          font-weight: 600;
-          margin-bottom: 4px;
-          color: #222;
-        }
+                .modal-title {
+                    font-size: 32px;
+                    font-weight: 800;
+                    margin-bottom: 40px;
+                    color: ${ACCENT_COLOR_DARK};
+                }
 
-        .modal-item-description {
-          font-size: 16px;
-          color: #666666;
-        }
+                .modal-items-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 24px;
+                }
 
-        /* Reveal utility for this page */
-        .lp-reveal { opacity: 0; transform: translateY(26px); }
-        .lp-reveal.is-visible { opacity: 1; transform: translateY(0); transition: transform 900ms ease, opacity 900ms ease; }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
+                .modal-item {
+                    padding: 24px;
+                    border-radius: 12px;
+                    background-color: #f7f7f7;
+                    transition: transform 0.2s, box-shadow 0.2s;
+                    border: 1px solid #e5e7eb;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+                
+                .modal-item:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.1);
+                    border-color: ${PRIMARY_COLOR_DARK};
+                }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-          .folders-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            max-width: 400px;
-          }
+                .modal-item-icon-wrapper {
+                    background-color: ${PRIMARY_COLOR_LIGHT};
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 10px;
+                }
 
-          .folder-wrapper {
-            max-width: 120px;
-          }
+                .modal-item-name {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: ${ACCENT_COLOR_DARK};
+                }
 
-          .header-title,
-          .header-subtitle {
-            font-size: 32px;
-          }
-        }
+                .modal-item-description {
+                    font-size: 14px;
+                    color: #666666;
+                }
+                
+                .modal-item-category-tag {
+                    align-self: flex-start;
+                    font-size: 11px;
+                    font-weight: 600;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    background-color: #e5e7eb;
+                    color: #4b5563;
+                    margin-top: auto; /* Push to bottom */
+                }
 
-        @media (max-width: 480px) {
-          .folders-grid {
-            grid-template-columns: 1fr;
-            max-width: 160px;
-          }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: scale(0.95); }
+                    to { opacity: 1; transform: scale(1); }
+                }
 
-          .folder-wrapper {
-            max-width: 100px;
-          }
+                /* Responsive adjustments */
+                @media (max-width: 1024px) {
+                    .cards-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+                
+                @media (max-width: 768px) {
+                    .cards-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    .projects-section {
+                        padding: 60px 20px;
+                    }
+                    .header-title {
+                        font-size: 36px;
+                    }
+                    .header-subtitle {
+                        font-size: 20px;
+                    }
+                }
 
-          .folder-title {
-            font-size: 12px;
-          }
-        }
-      `}</style>
-    </div>
-  );
+                @media (max-width: 480px) {
+                    .modal-content {
+                        padding: 20px;
+                        border-radius: 16px;
+                    }
+                    .modal-items-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            `}</style>
+        </div>
+    );
 };
 
 export default App;

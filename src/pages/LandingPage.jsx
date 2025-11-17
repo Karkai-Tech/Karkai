@@ -52,9 +52,9 @@ export default function LandingPage() {
           <div className="lp-navPill">
             <div className="lp-navItem" onClick={() => scrollToSection('home')}>HOME</div>
             <div className="lp-navItem" onClick={() => scrollToSection('projects')}>PROJECTS</div>
-            <div className="lp-navItem" onClick={() => scrollToSection('about-us')}>ABOUT US</div>
             <div className="lp-navItem" onClick={() => scrollToSection('meeting')}>MEETING</div>
             <div className="lp-navItem" onClick={() => scrollToSection('contact')}>CONTACT</div>
+            <div className="lp-navItem" onClick={() => window.location.href = '/about-us-page'}>ABOUT US</div>
           </div>
           {/* 2x2 grid icon on the top right */}
           <div className="lp-gridWrap lp-pop">
@@ -85,18 +85,27 @@ export default function LandingPage() {
         </div>
 
         {/* Video / Intro Section */}
-        <section className="lp-videoSection" ref={videoSectionRef}>
-          <div className="lp-videoCard lp-reveal">
-            {/* Play button mock to resemble YouTube style */}
-            <div className="lp-playButton">
-              <div className="lp-playTriangle" />
+         <section className="lp-videoSection lp-scroll-reveal">
+          <div className="lp-videoContainer">
+            <div className="lp-videoCard">
+              <span className="lp-videoPlaceholderText">OnetoZ Case Study Preview - Click to Play</span>
+              {/* <div className="lp-playButtonLarge">
+                <div className="lp-playTriangleLarge" />
+              </div> */}
             </div>
           </div>
-          <p className="lp-videoCaption lp-reveal">
-            We blend minimal design with scalable intelligence, crafting solutions
-            that adapt and grow with you. At OnetoZ, every interface is
-            made to feel effortless and timeless.
-          </p>
+          
+          <div className="lp-videoContent">
+            <h2 className="lp-video-title">Our Growth Philosophy: Minimal Design, Maximal Impact.</h2>
+            <p className="lp-videoCaption">
+              We blend minimal design with scalable intelligence, crafting solutions
+              that adapt and grow with you. At OnetoZ, every interface is
+              made to feel effortless and timeless. <strong> Watch our latest case study on YouTube. </strong>
+            </p>
+            <button className="lp-cta lp-cta-primary" onClick={() => alert('Redirecting to YouTube Channel')}>
+                Visit Our YouTube Channel →
+            </button>
+          </div>
         </section>
       </div>
     </div>
